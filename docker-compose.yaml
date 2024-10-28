@@ -1,0 +1,33 @@
+name: persona_app
+services:
+  maria_db:
+    container_name: maria_db
+    image: mariadb:11.4
+    environment:
+      MARIADB_ROOT_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+        - maria_db_data:/var/lib/mysql
+        - ./scripts/maria:/docker-entrypoint-initdb.d
+
+  mongo_db:
+    container_name: mongo_db
+    image: mongodb/mongodb-community-server:8.0.3-ubuntu2204
+    environment:
+       MONGODB_INITDB_ROOT_USERNAME: admin
+       MONGODB_INITDB_ROOT_PASSWORD: password
+       MONGODB_INITDB_DATABASE: persona_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_db_data:/data/db
+      - ./scripts/mongo:/docker-entrypoint-initdb.d
+
+volumes:
+    maria_db_data:
+    mongo_db_data:
+
+networks:
+    default:
+        driver: bridge

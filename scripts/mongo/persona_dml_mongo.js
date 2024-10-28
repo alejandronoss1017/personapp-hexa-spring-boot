@@ -1,5 +1,3 @@
-use prueba_db
-
 db.persona.insertMany([
 	{
 		"_id": NumberInt(123456789),
