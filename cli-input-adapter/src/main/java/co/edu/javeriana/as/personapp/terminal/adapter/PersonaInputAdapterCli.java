@@ -3,6 +3,7 @@ package co.edu.javeriana.as.personapp.terminal.adapter;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import co.edu.javeriana.as.personapp.common.exceptions.NoExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -56,4 +57,44 @@ public class PersonaInputAdapterCli {
 	        .forEach(System.out::println);
 	}
 
+	public void findById(int id) throws NoExistException {
+		log.info("Into findById PersonaEntity in Input Adapter");
+		PersonaModelCli persona = personaMapperCli.fromDomainToAdapterCli(personInputPort.findOne(id));
+		if (persona != null) {
+			System.out.println(persona.toString());
+		}
+		else {
+			throw new NoExistException("No existe la persona con id: " + id);
+		}
+	}
+
+	public void create (int cc, String nombre, String apellido, String genero, Integer edad){
+		PersonaModelCli persona = PersonaModelCli.builder()
+				.cc(cc)
+				.nombre(nombre)
+				.apellido(apellido)
+				.genero(genero)
+				.edad(edad)
+				.build();;
+		personInputPort.create(personaMapperCli.fromAdapterCliToDomain(persona));
+	}
+
+	public void edit (int cc, String nombre, String apellido, String genero, Integer edad) throws NoExistException {
+		PersonaModelCli persona = PersonaModelCli.builder()
+				.cc(cc)
+				.nombre(nombre)
+				.apellido(apellido)
+				.genero(genero)
+				.edad(edad)
+				.build();
+		personInputPort.edit(cc, personaMapperCli.fromAdapterCliToDomain(persona));
+	}
+
+	public void drop (int cc) throws NoExistException {
+		personInputPort.drop(cc);
+	}
+
+	public void count() {
+		System.out.println(personInputPort.count());
+	}
 }
