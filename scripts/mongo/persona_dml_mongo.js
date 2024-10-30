@@ -1,3 +1,5 @@
+db = new Mongo().getDB("persona_db");
+
 db.persona.insertMany([
 	{
 		"_id": NumberInt(123456789),
@@ -38,4 +40,4 @@ db.persona.insertMany([
 		"edad": NumberInt(18),
 		"_class": "co.edu.javeriana.as.personapp.mongo.document.PersonaDocument"
 	}
-], { ordered: false })
+], { ordered: false });

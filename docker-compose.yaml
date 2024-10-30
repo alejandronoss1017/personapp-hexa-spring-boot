@@ -6,7 +6,7 @@ services:
     environment:
       MARIADB_ROOT_PASSWORD: password
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
         - maria_db_data:/var/lib/mysql
         - ./scripts/maria:/docker-entrypoint-initdb.d
@@ -15,8 +15,8 @@ services:
     container_name: mongo_db
     image: mongodb/mongodb-community-server:8.0.3-ubuntu2204
     environment:
-       MONGODB_INITDB_ROOT_USERNAME: admin
-       MONGODB_INITDB_ROOT_PASSWORD: password
+       MONGODB_INITDB_ROOT_USERNAME: persona_db
+       MONGODB_INITDB_ROOT_PASSWORD: persona_db
        MONGODB_INITDB_DATABASE: persona_db
     ports:
       - "27017:27017"
