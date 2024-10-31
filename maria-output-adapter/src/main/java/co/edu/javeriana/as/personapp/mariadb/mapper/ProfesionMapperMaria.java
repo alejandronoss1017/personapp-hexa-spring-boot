@@ -46,6 +46,17 @@ public class ProfesionMapperMaria {
 		return profession;
 	}
 
+	public Profession fromAdapterToDomain2(ProfesionEntity profesionEntity) {
+		if (profesionEntity == null)
+			return null;
+
+		return Profession.builder()
+				.identification(profesionEntity.getId())
+				.name(profesionEntity.getNom())
+				.description(validateDescription(profesionEntity.getDes()))
+				.build();
+	}
+
 	private String validateDescription(String des) {
 		return des != null ? des : "";
 	}

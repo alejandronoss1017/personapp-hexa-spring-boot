@@ -42,17 +42,26 @@ public class EstudiosMapperMaria {
 	}
 
 	public Study fromAdapterToDomain(EstudiosEntity estudiosEntity) {
-		Study study = new Study();
-		study.setPerson(personaMapperMaria.fromAdapterToDomain(estudiosEntity.getPersona()));
-		study.setProfession(profesionMapperMaria.fromAdapterToDomain(estudiosEntity.getProfesion()));
-		study.setGraduationDate(validateGraduationDate(estudiosEntity.getFecha()));
-		study.setUniversityName(validateUniversityName(estudiosEntity.getUniver()));
-		return null;
+		if (estudiosEntity == null || estudiosEntity.getPersona() == null || estudiosEntity.getProfesion() == null) {
+			return null;
+		}
+
+		return Study.builder()
+				.person(personaMapperMaria.fromAdapterToDomain2(estudiosEntity.getPersona()))
+				.profession(profesionMapperMaria.fromAdapterToDomain2(estudiosEntity.getProfesion()))
+				.graduationDate(validateGraduationDate(estudiosEntity.getFecha()))
+				.universityName(validateUniversityName(estudiosEntity.getUniver()))
+				.build();
 	}
 
 	private LocalDate validateGraduationDate(Date fecha) {
-		return fecha != null ? fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate() : null;
-	}
+    if (fecha == null) {
+        return null;
+    }
+    return fecha instanceof java.sql.Date
+        ? ((java.sql.Date) fecha).toLocalDate()
+        : fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+}
 
 	private String validateUniversityName(String univer) {
 		return univer != null ? univer : "";

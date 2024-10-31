@@ -61,6 +61,15 @@ public class EstudiosMapperMongo {
 		return null;
 	}
 
+	public Study fromAdapterToDomain2(EstudiosDocument estudiosDocument) {
+		return Study.builder()
+				.person(estudiosDocument.getPrimaryPersona() != null ? personaMapperMongo.fromAdapterToDomain2(estudiosDocument.getPrimaryPersona()) : null)
+				.profession(estudiosDocument.getPrimaryProfesion() != null ? profesionMapperMongo.fromAdapterToDomain2(estudiosDocument.getPrimaryProfesion()) : null)
+				.graduationDate(validateGraduationDate(estudiosDocument.getFecha()))
+				.universityName(validateUniversityName(estudiosDocument.getUniver()))
+				.build();
+	}
+
 	private LocalDate validateGraduationDate(LocalDate fecha) {
 		return fecha != null ? fecha : null;
 	}

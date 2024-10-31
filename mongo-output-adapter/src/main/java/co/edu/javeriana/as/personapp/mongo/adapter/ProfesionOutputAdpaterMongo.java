@@ -28,7 +28,7 @@ public class ProfesionOutputAdpaterMongo implements ProfessionOutputPort {
     public Profession save(Profession profession) {
         log.debug("Into save on Adapter MariaDB");
         ProfesionDocument persistedProfesion = professionRepositoryMongo.save(professionMapperMongo.fromDomainToAdapter(profession));
-        return professionMapperMongo.fromAdapterToDomain(persistedProfesion);
+        return professionMapperMongo.fromAdapterToDomain2(persistedProfesion);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class ProfesionOutputAdpaterMongo implements ProfessionOutputPort {
         if (professionRepositoryMongo.findById(identification).isEmpty()) {
             return null;
         } else {
-            return professionMapperMongo.fromAdapterToDomain(professionRepositoryMongo.findById(identification).get());
+            return professionMapperMongo.fromAdapterToDomain2(professionRepositoryMongo.findById(identification).get());
         }
     }
 

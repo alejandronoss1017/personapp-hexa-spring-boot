@@ -30,7 +30,7 @@ public class PersonOutputAdapterMongo implements PersonOutputPort {
 		log.debug("Into save on Adapter MongoDB");
 		try {
 			PersonaDocument persistedPersona = personaRepositoryMongo.save(personaMapperMongo.fromDomainToAdapter(person));
-			return personaMapperMongo.fromAdapterToDomain(persistedPersona);
+			return personaMapperMongo.fromAdapterToDomain2(persistedPersona);
 		} catch (MongoWriteException e) {
 			log.warn(e.getMessage());
 			return person;
@@ -57,7 +57,7 @@ public class PersonOutputAdapterMongo implements PersonOutputPort {
 		if (personaRepositoryMongo.findById(identification).isEmpty()) {
 			return null;
 		} else {
-			return personaMapperMongo.fromAdapterToDomain(personaRepositoryMongo.findById(identification).get());
+			return personaMapperMongo.fromAdapterToDomain2(personaRepositoryMongo.findById(identification).get());
 		}
 	}
 

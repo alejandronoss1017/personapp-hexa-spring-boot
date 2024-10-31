@@ -1,6 +1,7 @@
 package co.edu.javeriana.as.personapp.mariadb.mapper;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,6 +70,20 @@ public class PersonaMapperMaria {
 		return person;
 	}
 
+	public Person fromAdapterToDomain2(PersonaEntity entity) {
+		if (entity == null) {
+			return null;
+		}
+		return Person.builder()
+				.identification(entity.getCc())
+				.firstName(entity.getNombre())
+				.lastName(entity.getApellido())
+				.gender(validateGender(entity.getGenero()))
+				.age(entity.getEdad())
+				.build();
+	}
+
+
 	private @NonNull Gender validateGender(Character genero) {
 		return genero == 'F' ? Gender.FEMALE : genero == 'M' ? Gender.MALE : Gender.OTHER;
 	}
@@ -78,10 +93,13 @@ public class PersonaMapperMaria {
 	}
 
 	private List<Study> validateStudies(List<EstudiosEntity> estudiosEntity) {
-		return estudiosEntity != null && !estudiosEntity.isEmpty() ? estudiosEntity.stream()
-				.map(estudio -> estudiosMapperMaria.fromAdapterToDomain(estudio)).collect(Collectors.toList())
-				: new ArrayList<Study>();
+		return estudiosEntity != null && !estudiosEntity.isEmpty()
+				? estudiosEntity.stream()
+				.map(estudiosMapperMaria::fromAdapterToDomain)
+				.collect(Collectors.toList())
+				: new ArrayList<>();
 	}
+
 
 	private List<Phone> validatePhones(List<TelefonoEntity> telefonoEntities) {
 		return telefonoEntities != null && !telefonoEntities.isEmpty() ? telefonoEntities.stream()

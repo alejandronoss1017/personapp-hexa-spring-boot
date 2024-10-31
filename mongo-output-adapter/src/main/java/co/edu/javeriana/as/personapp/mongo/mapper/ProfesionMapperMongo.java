@@ -46,13 +46,21 @@ public class ProfesionMapperMongo {
 		return profession;
 	}
 
+	public Profession fromAdapterToDomain2(ProfesionDocument profesionDocument) {
+		return Profession.builder()
+				.identification(profesionDocument.getId() != null ? profesionDocument.getId() : 0)
+				.name(profesionDocument.getNom() != null ? profesionDocument.getNom() : "Desconocido")
+				.description(profesionDocument.getDes() != null ? profesionDocument.getDes() : "")
+				.build();
+	}
+
 	private String validateDescription(String des) {
 		return des != null ? des : "";
 	}
 
 	private List<Study> validateStudies(List<EstudiosDocument> estudiosDocument) {
 		return estudiosDocument != null && !estudiosDocument.isEmpty() ? estudiosDocument.stream()
-				.map(estudio -> estudiosMapperMongo.fromAdapterToDomain(estudio)).collect(Collectors.toList())
+				.map(estudio -> estudiosMapperMongo.fromAdapterToDomain2(estudio)).collect(Collectors.toList())
 				: new ArrayList<Study>();
 	}
 }

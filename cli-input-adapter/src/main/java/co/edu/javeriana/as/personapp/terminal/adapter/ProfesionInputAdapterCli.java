@@ -54,7 +54,7 @@ public class ProfesionInputAdapterCli {
             System.out.println(profession.toString());
         }
         else {
-            throw new NoExistException("No existe la persona con id: " + id);
+            throw new NoExistException("The profession with id " + id + " does not exist into db, cannot be found");
         }
     }
 

@@ -10,23 +10,23 @@ import lombok.NonNull;
 public class PersonaMapperCli {
 
 	public PersonaModelCli fromDomainToAdapterCli(Person person) {
-		PersonaModelCli personaModelCli = new PersonaModelCli();
-		personaModelCli.setCc(person.getIdentification());
-		personaModelCli.setNombre(person.getFirstName());
-		personaModelCli.setApellido(person.getLastName());
-		personaModelCli.setGenero(person.getGender().toString());
-		personaModelCli.setEdad(person.getAge());
-		return personaModelCli;
+		return person != null ? PersonaModelCli.builder()
+				.cc(person.getIdentification())
+				.nombre(person.getFirstName())
+				.apellido(person.getLastName())
+				.edad(person.getAge())
+				.genero(String.valueOf(person.getGender()))
+				.build() : null;
 	}
 
 	public Person fromAdapterCliToDomain(PersonaModelCli personaModelCli) {
-		Person person = new Person();
-		person.setIdentification(personaModelCli.getCc());
-		person.setFirstName(personaModelCli.getNombre());
-		person.setLastName(personaModelCli.getApellido());
-		person.setGender(parseGender(personaModelCli.getGenero()));
-		person.setAge(personaModelCli.getEdad());
-		return person;
+		return personaModelCli != null ? Person.builder()
+				.identification(personaModelCli.getCc())
+				.firstName(personaModelCli.getNombre())
+				.lastName(personaModelCli.getApellido())
+				.age(personaModelCli.getEdad())
+				.gender(personaModelCli.getGenero() != null ? parseGender(personaModelCli.getGenero()) : Gender.OTHER)
+				.build() : null;
 	}
 
 	private @NonNull Gender parseGender(String genero) {

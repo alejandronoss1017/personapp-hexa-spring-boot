@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import co.edu.javeriana.as.personapp.domain.*;
+import co.edu.javeriana.as.personapp.mongo.document.ProfesionDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import co.edu.javeriana.as.personapp.common.annotations.Mapper;
-import co.edu.javeriana.as.personapp.domain.Gender;
-import co.edu.javeriana.as.personapp.domain.Person;
-import co.edu.javeriana.as.personapp.domain.Phone;
-import co.edu.javeriana.as.personapp.domain.Study;
 import co.edu.javeriana.as.personapp.mongo.document.EstudiosDocument;
 import co.edu.javeriana.as.personapp.mongo.document.PersonaDocument;
 import co.edu.javeriana.as.personapp.mongo.document.TelefonoDocument;
@@ -69,6 +67,16 @@ public class PersonaMapperMongo {
 		return person;
 	}
 
+	public Person fromAdapterToDomain2(PersonaDocument personaDocument) {
+		return Person.builder()
+				.identification(personaDocument.getId() != null ? personaDocument.getId() : 0)
+				.firstName(personaDocument.getNombre() != null ? personaDocument.getNombre() : "Desconocido")
+				.lastName(personaDocument.getApellido() != null ? personaDocument.getApellido() : "")
+				.gender(validateGender(personaDocument.getGenero()))
+				.age(validateAge(personaDocument.getEdad()))
+				.build();
+	}
+
 	private @NonNull Gender validateGender(String genero) {
 		return "F".equals(genero) ? Gender.FEMALE : "M".equals(genero) ? Gender.MALE : Gender.OTHER;
 	}
@@ -78,9 +86,9 @@ public class PersonaMapperMongo {
 	}
 
 	private List<Study> validateStudies(List<EstudiosDocument> estudiosDocuments) {
-		return estudiosDocuments != null && !estudiosDocuments.isEmpty() ? estudiosDocuments.stream()
-				.map(estudio -> estudiosMapperMongo.fromAdapterToDomain(estudio)).collect(Collectors.toList())
-				: new ArrayList<Study>();
+		return estudiosDocuments != null ? estudiosDocuments.stream()
+				.map(estudiosMapperMongo::fromAdapterToDomain2)
+				.collect(Collectors.toList()) : new ArrayList<>();
 	}
 
 	private List<Phone> validatePhones(List<TelefonoDocument> telefonosDocuments) {
