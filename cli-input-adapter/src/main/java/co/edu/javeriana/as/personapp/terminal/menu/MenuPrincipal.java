@@ -3,6 +3,7 @@ package co.edu.javeriana.as.personapp.terminal.menu;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import co.edu.javeriana.as.personapp.terminal.adapter.PhoneInputAdapterCli;
 import co.edu.javeriana.as.personapp.terminal.adapter.ProfesionInputAdapterCli;
 import co.edu.javeriana.as.personapp.terminal.adapter.StudyInputAdapterCli;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class MenuPrincipal {
 	private ProfesionInputAdapterCli profesionInputAdapterCli;
 	@Autowired
 	private StudyInputAdapterCli studyInputAdapterCli;
+	@Autowired
+	private PhoneInputAdapterCli phoneInputAdapterCli;
 
 	private static final int SALIR = 0;
 	private static final int MODULO_PERSONA = 1;
@@ -38,17 +41,17 @@ public class MenuPrincipal {
 	//Other Menus
 	private final ProfesionMenu profesionMenu;
 	private final StudyMenu studyMenu;
+	private final PhoneMenu telefonoMenu;
 
     public MenuPrincipal() {
         this.personaMenu = new PersonaMenu();
         this.keyboard = new Scanner(System.in);
 		this.profesionMenu = new ProfesionMenu();
 		this.studyMenu = new StudyMenu();
+		this.telefonoMenu = new PhoneMenu();
     }
 
 	public void inicio() {
-		
-		//personaMenu = new PersonaMenu(personaInputAdapterCli);
 		boolean isValid = false;
 		do {
 			mostrarMenu();
@@ -66,7 +69,7 @@ public class MenuPrincipal {
 				log.info("volvio");
 				break;
 			case MODULO_TELEFONO:
-				log.warn("Implementar Menu");
+				telefonoMenu.iniciarMenu(phoneInputAdapterCli, keyboard);
 				log.info("volvio");
 				break;
 			case MODULO_ESTUDIO:

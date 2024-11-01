@@ -84,14 +84,14 @@ public class StudyInputAdapterCli {
     }
 
     public void historial() {
-        log.info("Into historial ProfessionEntity in Input Adapter");
+        log.info("Into historial StudyEntity in Input Adapter");
         studyInputPort.findAll().stream()
                 .map(studyMapperCli::fromDomainToAdapterCli)
                 .forEach(System.out::println);
     }
 
     public void findById(Integer ProfessionId, Integer PersonId) throws NoExistException {
-        log.info("Into findById PersonaEntity in Input Adapter");
+        log.info("Into findById StudyEntity in Input Adapter");
 
         StudyModelCli study = studyMapperCli.fromDomainToAdapterCli(studyInputPort.findOne(ProfessionId, PersonId));
         if (study != null) {

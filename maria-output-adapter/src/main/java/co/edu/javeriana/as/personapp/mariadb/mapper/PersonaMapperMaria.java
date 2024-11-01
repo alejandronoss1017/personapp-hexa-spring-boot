@@ -66,7 +66,7 @@ public class PersonaMapperMaria {
 		person.setGender(validateGender(personaEntity.getGenero()));
 		person.setAge(validateAge(personaEntity.getEdad()));
 		person.setStudies(validateStudies(personaEntity.getEstudios()));
-		person.setPhoneNumbers(validatePhones(personaEntity.getTelefonos()));
+		person.setPhoneNumbers(mapPhonesWithoutOwner(personaEntity.getTelefonos()));
 		return person;
 	}
 
@@ -100,10 +100,11 @@ public class PersonaMapperMaria {
 				: new ArrayList<>();
 	}
 
-
-	private List<Phone> validatePhones(List<TelefonoEntity> telefonoEntities) {
-		return telefonoEntities != null && !telefonoEntities.isEmpty() ? telefonoEntities.stream()
-				.map(telefono -> telefonoMapperMaria.fromAdapterToDomain(telefono)).collect(Collectors.toList())
-				: new ArrayList<Phone>();
+	private List<Phone> mapPhonesWithoutOwner(List<TelefonoEntity> telefonoEntities) {
+		return telefonoEntities != null && !telefonoEntities.isEmpty()
+				? telefonoEntities.stream()
+				.map(telefonoMapperMaria::fromAdapterToDomainWithoutOwner)
+				.collect(Collectors.toList())
+				: new ArrayList<>();
 	}
 }

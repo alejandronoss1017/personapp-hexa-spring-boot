@@ -38,4 +38,11 @@ public class TelefonoMapperMaria {
 	private @NonNull Person validateOwner(PersonaEntity duenio) {
 		return duenio != null ? personaMapperMaria.fromAdapterToDomain(duenio) : new Person();
 	}
+
+	public Phone fromAdapterToDomainWithoutOwner(TelefonoEntity telefonoEntity) {
+		Phone phone = new Phone();
+		phone.setNumber(telefonoEntity.getNum());
+		phone.setCompany(telefonoEntity.getOper());
+		return phone;
+	}
 }

@@ -30,12 +30,6 @@ public class StudyOutputAdapterMaria implements StudyOutputPort {
     @Autowired
     private EstudiosMapperMaria estudiosMapperMaria;
 
-    // Person and Profession repositories
-    @Autowired
-    private ProfesionRepositoryMaria profesionRepositoryMaria;
-    @Autowired
-    private PersonaRepositoryMaria personaRepositoryMaria;
-
     @Override
     @Transactional
     public Study save(Study study) {
