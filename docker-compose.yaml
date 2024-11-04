@@ -7,6 +7,12 @@ services:
       MARIADB_ROOT_PASSWORD: password
     ports:
       - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s 
     volumes:
         - maria_db_data:/var/lib/mysql
         - ./scripts/maria:/docker-entrypoint-initdb.d
@@ -20,6 +26,12 @@ services:
        MONGODB_INITDB_DATABASE: persona_db
     ports:
       - "27017:27017"
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     volumes:
       - mongo_db_data:/data/db
       - ./scripts/mongo:/docker-entrypoint-initdb.d
@@ -41,8 +53,10 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - maria_db
-      - mongo_db
+      maria_db:
+        condition: service_healthy
+      mongo_db:
+        condition: service_healthy
 
 volumes:
     maria_db_data:
