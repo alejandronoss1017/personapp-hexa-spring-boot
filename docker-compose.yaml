@@ -24,6 +24,26 @@ services:
       - mongo_db_data:/data/db
       - ./scripts/mongo:/docker-entrypoint-initdb.d
 
+  rest_api:
+    container_name: rest_api
+    build:
+        context: .
+        dockerfile: Dockerfile
+    environment:
+        MARIADB_HOST: maria_db
+        MARIADB_USER: root
+        MARIADB_PASSWORD: password
+        MARIADB_DATABASE: persona_db
+        MONGODB_HOST: mongo_db
+        MONGODB_USER: persona_db
+        MONGODB_PASSWORD: persona_db
+        MONGODB_DATABASE: persona_db
+    ports:
+      - "3000:3000"
+    depends_on:
+      - maria_db
+      - mongo_db
+
 volumes:
     maria_db_data:
     mongo_db_data:
