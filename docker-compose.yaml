@@ -6,7 +6,7 @@ services:
     environment:
       MARIADB_ROOT_PASSWORD: password
     ports:
-      - "3307:3306"
+      - "3306:3306"
     volumes:
         - maria_db_data:/var/lib/mysql
         - ./scripts/maria:/docker-entrypoint-initdb.d
