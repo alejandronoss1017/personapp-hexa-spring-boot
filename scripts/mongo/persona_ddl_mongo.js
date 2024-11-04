@@ -1,5 +1,3 @@
-db = new Mongo().getDB("admin");
-
 db.createUser({
   user: 'persona_db',
   pwd: 'persona_db',
