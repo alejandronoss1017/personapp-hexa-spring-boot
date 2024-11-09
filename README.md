@@ -22,10 +22,9 @@ Para ejecutar la solución completa utilizando Docker Compose, sigue estos pasos
     ```sh
     docker-compose up --build
     ```
-4. Ejecutar PersonAppRestAPi
-5. Ejecutar PersonAppCli
-6. Puede consultar el swagger en http://localhost:3000/swagger-ui.html
-7. Para detener los contenedores:
+4. Ejecutar PersonAppCli
+5. Puede consultar el swagger en http://localhost:3000/swagger-ui.html
+6. Para detener los contenedores:
     ```sh
     docker-compose down
     ```
